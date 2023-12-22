@@ -1,13 +1,32 @@
 import { StatusBar, StyleSheet, Text, View } from "react-native";
-import Button from "./components/Button";
+import Button, { ButtonTypes } from "./components/Button";
 
 export default function App() {
-  const isError = false;
+  let result = 0;
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <Text style={styles.text}>Calc App</Text>
-      <Button title="button" />
+      <Text style={styles.text}>{result}</Text>
+      <Button
+        title="+"
+        onPress={() => {
+          result = result + 1;
+          console.log("+ : ", result);
+        }}
+        buttonStyle={{ width: 100, height: 200 }}
+        buttonType={ButtonTypes.OPERATOR}
+      />
+      <View style={{ paddingVertical: 10 }}></View>
+      <Button
+        title="-"
+        onPress={() => {
+          result = result - 1;
+          console.log("- : ", result);
+        }}
+        buttonStyle={styles.button}
+        buttonType={ButtonTypes.OPERATOR}
+      />
     </View>
   );
 }
@@ -22,11 +41,9 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 30,
     fontWeight: "700",
-    color: "green",
   },
-  error: {
-    fontSize: 30,
-    fontWeight: "700",
-    color: "red",
+  button: {
+    width: 100,
+    height: 100,
   },
 });

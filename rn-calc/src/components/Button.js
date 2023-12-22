@@ -1,6 +1,55 @@
-import { Text } from "react-native";
+import PropTypes from "prop-types";
+import { Pressable, StyleSheet, Text, TouchableOpacity } from "react-native";
 
-export default function Button(props) {
-  console.log(props);
-  return <Text>{props.title}</Text>;
+const ButtonTypes = {
+  NUMBER: "NUMBER",
+  OPERATOR: "OPERATOR",
+};
+
+const Colors = {
+  NUMBER: ["#71717a", "#3f3f46"],
+  OPERATOR: ["#f59e0b", "#b45309"],
+};
+export default function Button({ title, onPress, buttonStyle, buttonType }) {
+  return (
+    <Pressable
+      style={({ pressed }) => [
+        styles.button,
+        {
+          backgroundColor: Colors[buttonType][0],
+        },
+        pressed && {
+          backgroundColor: Colors[buttonType][1],
+        },
+        buttonStyle,
+      ]}
+      onPressOut={onPress}
+    >
+      <Text style={{ color: "white" }}>{title}</Text>
+    </Pressable>
+  );
 }
+
+Button.propTypes = {
+  title: PropTypes.string.isRequired,
+  onPress: PropTypes.func.isRequired,
+  buttonStyle: PropTypes.object,
+  buttonType: PropTypes.oneOf(Object.values(ButtonTypes)),
+};
+
+Button.defaultProps = {
+  buttonType: ButtonTypes.NUMBER,
+};
+
+const styles = StyleSheet.create({
+  button: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  title: {
+    color: "#ffffff",
+    fontSize: 50,
+  },
+});
+
+export { ButtonTypes };

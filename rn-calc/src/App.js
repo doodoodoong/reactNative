@@ -3,16 +3,60 @@ import Button, { ButtonTypes } from "./components/Button";
 import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 
+const Operator = {
+  CLEAR: "C",
+  PLUS: "+",
+  MINUS: "-",
+  EQUAL: "=",
+};
+
 export default function App() {
   const [result, setResult] = useState(0);
+  const [formula, setFormula] = useState([]);
   const windowWidth = useWindowDimensions().width;
   const width = (windowWidth - 5) / 4;
+  const onPressOperator = (operator) => {
+    switch (operator) {
+      case Operator.CLEAR:
+        setFormula([]);
+        setResult(0);
+        return;
+      case Operator.EQUAL:
+        const last = formula[formula.length - 1];
+        if ([Operator.PLUS, Operator.MINUS].includes(last)) {
+          setFormula((prev) => {
+            prev.pop();
+            return [...prev, operator];
+          });
+        } else {
+          setFormula((prev) => [...prev, operator]);
+        }
+        return;
+    }
+  };
+  const onPressNumber = (number) => {
+    const last = formula[formula.length - 1];
+    if (isNaN(last)) {
+      setResult(number);
+      setFormula((prev) => [...prev, number]);
+    } else {
+      const newNumber = (last ?? 0) * 10 + number;
+      setResult(newNumber);
+      setFormula((prev) => {
+        prev.pop();
+        return [...prev, newNumber];
+      });
+    }
+    setResult((prev) => prev * 10 + number);
+  };
 
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
       <View style={styles.resultContainer}>
-        <Text style={styles.text}>{result}</Text>
+        <Text style={styles.text}>
+          {result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+        </Text>
       </View>
 
       <View style={styles.buttonContainer}>
@@ -22,7 +66,7 @@ export default function App() {
               <Button
                 key={num}
                 title={num.toString()}
-                onPress={() => {}}
+                onPress={() => onPressNumber(num)}
                 buttonStyle={{ width, height: width, marginTop: 1 }}
               />
             ))}
@@ -30,13 +74,17 @@ export default function App() {
           <View style={styles.bottom}>
             <Button
               title="0"
-              onPress={() => {}}
+              onPress={() => {
+                onPressNumber(0);
+              }}
               buttonType={ButtonTypes.NUMBER}
               buttonStyle={{ width: width * 2, height: width, marginTop: 1 }}
             />
             <Button
-              title="="
-              onPress={() => {}}
+              title={Operator.EQUAL}
+              onPress={() => {
+                onPressOperator(Operator.EQUAL);
+              }}
               buttonType={ButtonTypes.OPERATOR}
               buttonStyle={{ width, height: width, marginTop: 1 }}
             />
@@ -45,21 +93,27 @@ export default function App() {
 
         <View>
           <Button
-            title="C"
+            title={Operator.CLEAR}
             buttonType={ButtonTypes.OPERATOR}
-            onPress={() => {}}
+            onPress={() => {
+              onPressOperator(Operator.CLEAR);
+            }}
             buttonStyle={{ width, height: width, marginTop: 1 }}
           />
           <Button
             buttonType={ButtonTypes.OPERATOR}
-            title="-"
-            onPress={() => {}}
+            title={Operator.MINUS}
+            onPress={() => {
+              onPressOperator(Operator.MINUS);
+            }}
             buttonStyle={{ width, height: width, marginTop: 1 }}
           />
           <Button
-            title="+"
+            title={Operator.PLUS}
             buttonType={ButtonTypes.OPERATOR}
-            onPress={() => {}}
+            onPress={() => {
+              onPressOperator(Operator.PLUS);
+            }}
             buttonStyle={{ width, height: width * 2, marginTop: 1 }}
           />
         </View>

@@ -1,5 +1,9 @@
 import { Image, StyleSheet, View } from 'react-native';
-import Input, { KeyboardTypes, ReturnKeyTypes } from '../components/Input';
+import Input, {
+  IconNames,
+  KeyboardTypes,
+  ReturnKeyTypes,
+} from '../components/Input';
 import SafeInputView from '../components/SafeInputView';
 import { useState } from 'react';
 
@@ -18,6 +22,7 @@ const SingInScreen = () => {
           returnKeyType={ReturnKeyTypes.NEXT}
           value={email}
           onChangeText={(email) => setEmail(email.trim())}
+          iconName={IconNames.EMAIl}
         />
         <Input
           title="password"
@@ -25,6 +30,7 @@ const SingInScreen = () => {
           secureTextEntry
           value={password}
           onChangeText={(password) => setPassword(password.trim())}
+          iconName={IconNames.PASSWORD}
         />
       </View>
     </SafeInputView>

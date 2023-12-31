@@ -8,8 +8,9 @@ import SafeInputView from '../components/SafeInputView';
 import { useEffect, useRef, useState } from 'react';
 import Button from '../components/Button';
 import { singIn } from '../api/auth';
+import PropTypes from 'prop-types';
 
-const SingInScreen = () => {
+const SingInScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const passwordRef = useRef(null);
@@ -28,6 +29,7 @@ const SingInScreen = () => {
         const data = await singIn(email, password);
         console.log(data);
         setIsLoading(false);
+        navigation.navigate('List');
       } catch (error) {
         Alert.alert('Login Fail', error, [
           { text: 'OK', onPress: () => setIsLoading(false) },
@@ -72,6 +74,10 @@ const SingInScreen = () => {
       </View>
     </SafeInputView>
   );
+};
+
+SingInScreen.propTypes = {
+  navigation: PropTypes.object,
 };
 
 const styles = StyleSheet.create({

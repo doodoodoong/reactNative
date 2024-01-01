@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from 'react';
 import Button from '../components/Button';
 import { singIn } from '../api/auth';
 import PropTypes from 'prop-types';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const SingInScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -41,7 +42,7 @@ const SingInScreen = ({ navigation }) => {
 
   return (
     <SafeInputView>
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <Image source={require('../../assets/main.png')} style={styles.image} />
         <Input
           title="email"
@@ -71,7 +72,7 @@ const SingInScreen = ({ navigation }) => {
             isLoading={isLoading}
           />
         </View>
-      </View>
+      </SafeAreaView>
     </SafeInputView>
   );
 };

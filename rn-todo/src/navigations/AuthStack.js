@@ -4,6 +4,10 @@ import ListScreen from '../screens/ListScreen';
 import { PRIMARY, WHITE } from '../colors';
 import { Pressable, Text } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import HeaderLeftButton from '../components/HeaderLeftButton';
+import HeaderRightButton from '../components/HeaderRightButton';
+import SettingScreen from '../screens/SettingScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,18 +22,7 @@ const AuthStack = () => {
         headerTitleStyle: {
           fontWeight: '700',
         },
-        headerLeft: ({ canGoBack, tintColor }) => {
-          if (!canGoBack) {
-            return null;
-          }
-          return (
-            <MaterialCommunityIcons
-              name="chevron-left"
-              size={30}
-              color={tintColor}
-            />
-          );
-        },
+        headerLeft: HeaderLeftButton,
       }}
     >
       <Stack.Screen
@@ -37,6 +30,7 @@ const AuthStack = () => {
         component={SingInScreen}
         options={{
           title: 'Log In',
+          headerShown: false,
         }}
       />
       <Stack.Screen
@@ -44,12 +38,10 @@ const AuthStack = () => {
         component={ListScreen}
         options={{
           title: 'TODO List',
-          headerTintColor: PRIMARY.DEFAULT,
-          headerTitleStyle: {
-            fontWeight: '700',
-          },
+          headerRight: HeaderRightButton,
         }}
       />
+      <Stack.Screen name="Settings" component={SettingScreen} />
     </Stack.Navigator>
   );
 };

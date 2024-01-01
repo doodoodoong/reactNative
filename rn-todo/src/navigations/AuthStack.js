@@ -14,34 +14,12 @@ const Stack = createNativeStackNavigator();
 const AuthStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="SignIn"
       screenOptions={{
         contentStyle: { backgroundColor: WHITE },
-        headerTitleAlign: 'center',
-        headerTintColor: PRIMARY.DEFAULT,
-        headerTitleStyle: {
-          fontWeight: '700',
-        },
-        headerLeft: HeaderLeftButton,
+        headerShown: false,
       }}
     >
-      <Stack.Screen
-        name="SignIn"
-        component={SingInScreen}
-        options={{
-          title: 'Log In',
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="List"
-        component={ListScreen}
-        options={{
-          title: 'TODO List',
-          headerRight: HeaderRightButton,
-        }}
-      />
-      <Stack.Screen name="Settings" component={SettingScreen} />
+      <Stack.Screen name="SignIn" component={SingInScreen} />
     </Stack.Navigator>
   );
 };
